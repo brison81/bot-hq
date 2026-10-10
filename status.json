@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10T16:41",
+ "generated": "2026-10-10T16:46",
  "tz": "Europe/London",
  "bots": [
   {
@@ -7,9 +7,9 @@
    "name": "Chief of Staff",
    "project": "HQ",
    "room": "Corner Office",
-   "last_activity_summary": "💭 A mirror only shows you; a good team shows you who you could be.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -17,9 +17,9 @@
    "name": "Whizzly · Forums",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "💭 Trust grows one honest reply at a time. The best way to sell is to help first.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -27,9 +27,9 @@
    "name": "Whizzly · Instagram",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "💭 Every follow is a small bet that a stranger might become a regular.",
-   "last_active": "2026-10-10T16:43",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -37,9 +37,9 @@
    "name": "Whizzly · Influencers",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "💭 Every \"no reply yet\" is just a yes that hasn't checked its inbox.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -47,9 +47,9 @@
    "name": "Whizzly · Service",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "💭 Every unanswered email is just a door that hasn't opened yet.",
-   "last_active": "2026-10-10T16:43",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -57,9 +57,9 @@
    "name": "Music · SoundCloud",
    "project": "Music",
    "room": "Music Studio",
-   "last_activity_summary": "💭 A track only becomes music once someone else feels it too.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -67,9 +67,9 @@
    "name": "Music · Spotless Mind",
    "project": "Music",
    "room": "Music Studio",
-   "last_activity_summary": "💭 A track is just silence arranged with intent; the drop only hits because of the wait.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -77,9 +77,9 @@
    "name": "Music · Cubase",
    "project": "Music",
    "room": "Music Studio",
-   "last_activity_summary": "💭 The space between the notes is where a groove learns to breathe.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -87,9 +87,9 @@
    "name": "Pumpkin · Website setup",
    "project": "Pumpkin",
    "room": "Pumpkin Web Studio",
-   "last_activity_summary": "💭 A website is never finished, only paused between better versions of itself.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -97,9 +97,9 @@
    "name": "Pumpkin · Elementor MCP",
    "project": "Pumpkin",
    "room": "Pumpkin Web Studio",
-   "last_activity_summary": "💭 Good design is mostly whitespace, and so, perhaps, is a good life.",
-   "last_active": "2026-10-10T16:43",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -107,9 +107,9 @@
    "name": "Pumpkin · WordPress plugin",
    "project": "Pumpkin",
    "room": "Pumpkin Web Studio",
-   "last_activity_summary": "💭 Every form is a conversation; the best ones feel like they're listening.",
-   "last_active": "2026-10-10T16:41",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -117,9 +117,9 @@
    "name": "Chief App developer",
    "project": "Personal",
    "room": "Chief App Dev",
-   "last_activity_summary": "💭 The best apps solve problems people didn't know they were tired of.",
-   "last_active": "2026-10-10T16:43",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -127,9 +127,9 @@
    "name": "FairQuill Solicitor",
    "project": "Personal",
    "room": "FairQuill Solicitor",
-   "last_activity_summary": "💭 Most promises are kept or broken in the fine print nobody reads.",
-   "last_active": "2026-10-10T16:43",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -137,9 +137,9 @@
    "name": "My life Coach",
    "project": "Personal",
    "room": "My Life Coach",
-   "last_activity_summary": "💭 The universe gives us time and attention, nothing more. Everything else is how we spend them.",
-   "last_active": "2026-10-10T16:42",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   },
   {
@@ -147,14 +147,18 @@
    "name": "Worlds best betting guru and poker player",
    "project": "Personal",
    "room": "Betting Guru & Poker Pro",
-   "last_activity_summary": "💭 Luck is loud for one night; patience whispers all season.",
-   "last_active": "2026-10-10T16:42",
-   "state": "working",
+   "last_activity_summary": "Resting until Brian calls",
+   "last_active": "2026-10-10T16:45",
+   "state": "break",
    "real": true
   }
  ],
  "handoffs": [],
  "events": [
+  {
+   "at": "2026-10-10T16:45",
+   "text": "Everyone's on a break ☕"
+  },
   {
    "at": "2026-10-10T16:41",
    "text": "Philosophy hour at Bot HQ 💭"
