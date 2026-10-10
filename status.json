@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10T15:46",
+ "generated": "2026-10-10T16:17",
  "tz": "Europe/London",
  "bots": [
   {
@@ -17,38 +17,38 @@
    "name": "Whizzly · Forums",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "No recent activity read yet",
-   "last_active": null,
-   "state": "idle",
-   "real": false
+   "last_activity_summary": "Whizzly team meeting at the table",
+   "last_active": "2026-10-10T16:16",
+   "state": "in a meeting",
+   "real": true
   },
   {
    "id": "8de4ffdc-c77c-4fbd-b2aa-4c7e4874b5ee",
    "name": "Whizzly · Instagram",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "No recent activity read yet",
-   "last_active": null,
-   "state": "idle",
-   "real": false
+   "last_activity_summary": "Whizzly team meeting at the table",
+   "last_active": "2026-10-10T16:16",
+   "state": "in a meeting",
+   "real": true
   },
   {
    "id": "0cfd7d99-6d03-4cd6-85c7-bec768533208",
    "name": "Whizzly · Influencers",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "No recent activity read yet",
-   "last_active": null,
-   "state": "idle",
-   "real": false
+   "last_activity_summary": "Whizzly team meeting at the table",
+   "last_active": "2026-10-10T16:16",
+   "state": "in a meeting",
+   "real": true
   },
   {
    "id": "b4547750-07a7-4404-8834-12a75e81f0fb",
    "name": "Whizzly · Service",
    "project": "Whizzly",
    "room": "Whizzly Wing",
-   "last_activity_summary": "Told the Whizzly team about the first subscriber",
-   "last_active": "2026-10-10T15:00",
+   "last_activity_summary": "Whizzly team meeting at the table",
+   "last_active": "2026-10-10T16:16",
    "state": "in a meeting",
    "real": true
   },
@@ -118,7 +118,7 @@
    "project": "Personal",
    "room": "Chief App Dev",
    "last_activity_summary": "No recent activity read yet",
-   "last_active": "2026-10-10T09:31",
+   "last_active": "2026-10-10T16:10",
    "state": "idle",
    "real": false
   },
@@ -162,6 +162,10 @@
   }
  ],
  "events": [
+  {
+   "at": "2026-10-10T16:16",
+   "text": "Whizzly team called to the meeting table"
+  },
   {
    "at": "2026-10-10T15:00",
    "text": "Whizzly · Service: Whizzly has its first subscriber"
