@@ -71,7 +71,7 @@ function apply(s){status=s;const old=Object.fromEntries(bots.map(b=>[b.id,b]));l
  document.getElementById('gen').textContent='Status updated '+fmt(s.generated);if(sel)show(bots.find(b=>b.id===sel.id))}
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 async function load(){if(location.protocol==='file:'){if(!status&&EMBED)apply(EMBED);return}try{const r=await fetch('status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;apply(await r.json())}catch(e){if(!status&&EMBED)apply(EMBED)}}
-load();setInterval(load,60000);
+load();setInterval(load,10000);
 function rr(X,Y,W,H,r,f){x.fillStyle=f;x.beginPath();x.roundRect(X,Y,W,H,r);x.fill()}
 function floor(){x.fillStyle='#4b4f63';x.fillRect(0,0,1200,720);
  for(const r of rooms){x.fillStyle=r.f;x.fillRect(r.x,r.y,r.w,r.h);x.strokeStyle='#0001';
