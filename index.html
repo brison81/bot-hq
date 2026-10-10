@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,"><title>Brian's Bot HQ</title><style>
+*{box-sizing:border-box}body{margin:0;background:#1d2030;font-family:system-ui,sans-serif;color:#eee;display:flex;flex-direction:column;align-items:center;min-height:100vh}
+header{width:100%;max-width:1200px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+h1{font-size:20px;margin:0}h1 small{font-weight:400;color:#f7b955;font-size:13px}
+.leg{display:flex;flex-wrap:wrap;gap:10px;font-size:12px}.leg span{display:flex;align-items:center;gap:4px}.leg i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.note{font-size:11px;color:#aab;width:100%}
+#wrap{position:relative;width:100%;max-width:1200px;padding:0 8px}
+canvas{width:100%;height:auto;display:block;border-radius:10px;image-rendering:pixelated;box-shadow:0 6px 30px #0008;cursor:pointer}
+#panel{position:fixed;right:14px;top:80px;width:300px;background:#fff;color:#222;border-radius:12px;padding:16px;box-shadow:0 10px 40px #0009;transform:translateX(330px);transition:.25s;z-index:5}
+#panel.open{transform:none}#panel h2{margin:0 0 4px;font-size:18px}#panel .proj{display:inline-block;padding:2px 8px;border-radius:10px;color:#fff;font-size:12px}
+#panel .lbl{font-size:11px;color:#888;margin-top:12px;text-transform:uppercase}#panel button{position:absolute;right:10px;top:8px;border:0;background:none;font-size:20px;cursor:pointer}
+#panel .ex{font-size:11px;color:#b06;margin-top:10px}
+@media(max-width:700px){#panel{left:8px;right:8px;top:auto;bottom:8px;width:auto;transform:translateY(120%)}#panel.open{transform:none}}
+#wrap{overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom}
+@media(max-width:700px){canvas{width:900px;max-width:none}h1{font-size:17px}}
+#panel .open-chat{display:block;margin-top:14px;text-align:center;background:#2563eb;color:#fff;padding:10px;border-radius:8px;text-decoration:none;font-weight:600}
+#panel .st{font-size:13px}#panel .warn{font-size:11px;color:#a16207;margin-top:8px}
+#ticker{position:fixed;left:0;right:0;bottom:0;background:#0b0d17ee;color:#cbd5e1;font-size:12px;height:26px;overflow:hidden;white-space:nowrap;z-index:4}
+#ticker div{display:inline-block;padding:5px 0;animation:tk 60s linear infinite}#ticker b{color:#facc15;margin:0 6px 0 30px}
+@keyframes tk{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+body{padding-bottom:34px}#clock{font-size:12px;color:#aab}
+</style></head><body>
+<header><h1>Brian's Bot HQ</h1><span id="clock"></span>
+<div class="leg"><span><i style="background:#3b82f6"></i>Whizzly</span><span><i style="background:#a855f7"></i>Music</span><span><i style="background:#f97316"></i>Pumpkin</span><span><i style="background:#14b8a6"></i>Personal / advisors</span><span><i style="background:#eab308"></i>Chief of Staff</span></div>
+<div class="note">Tap any avatar for details. At desk = working · Break room = idle · Meeting room = recently messaged each other. <span id="gen"></span></div></header>
+<div id="wrap"><canvas id="c" width="1200" height="720"></canvas></div>
+<div id="panel"><button onclick="show(null)" aria-label="Close">×</button><h2 id="pn"></h2><span class="proj" id="pp"></span>
+<div class="lbl">Latest activity</div><div id="pt"></div><div class="warn" id="pw">Not refreshed from this bot's chat yet.</div>
+<div class="lbl">Last active</div><div class="st" id="pl"></div><div class="lbl">Status</div><div class="st" id="ps"></div>
+<a class="open-chat" id="po" href="#">Open chat</a></div>
+<div id="ticker"><div></div></div>
+<script>
+const EMBED=/*EMBED*/null/*END*/;
+const c=document.getElementById('c'),x=c.getContext('2d'),panel=document.getElementById('panel');
+const C={Whizzly:'#3b82f6',Music:'#a855f7',Pumpkin:'#f97316',Personal:'#14b8a6',HQ:'#eab308'};
+const rooms=[
+ {n:'Whizzly Wing',x:20,y:20,w:440,h:300,f:'#dbe8fb',col:C.Whizzly},
+ {n:'Music Studio',x:470,y:20,w:330,h:300,f:'#ecdcfb',col:C.Music},
+ {n:"Chief of Staff — Corner Office",x:810,y:20,w:370,h:220,f:'#fbf1cf',col:C.HQ},
+ {n:'Pumpkin Web Studio',x:20,y:330,w:440,h:200,f:'#fde3cf',col:C.Pumpkin},
+ {n:'Meeting Room',x:470,y:330,w:330,h:200,f:'#e5e7eb',col:'#6b7280'},
+ {n:'R&R / Break Room',x:810,y:250,w:370,h:280,f:'#d6f5e9',col:'#10b981'},
+ {n:'Chief App Dev',x:20,y:540,w:280,h:160,f:'#d3f2ee',col:C.Personal},
+ {n:'FairQuill Solicitor',x:310,y:540,w:280,h:160,f:'#d3f2ee',col:C.Personal},
+ {n:'My Life Coach',x:600,y:540,w:280,h:160,f:'#d3f2ee',col:C.Personal},
+ {n:'Betting Guru & Poker Pro',x:890,y:540,w:290,h:160,f:'#d3f2ee',col:C.Personal},
+];
+const MEET=[[560,420],[640,400],[720,420],[600,480],[700,480],[660,455]],BREAK=[[880,330],[960,330],[1060,420],[1120,470],[900,470],[980,400],[1000,470],[940,440]];
+// desk spots + look per bot id (from approved mock-up)
+const LOOK={
+'6af3e94b-2c77-4ce7-8993-a0c11ccceb06':[80,90,'#3b2414'],'8de4ffdc-c77c-4fbd-b2aa-4c7e4874b5ee':[190,90,'#e8c35a','#ec4899'],
+'0cfd7d99-6d03-4cd6-85c7-bec768533208':[300,90,'#111'],'b4547750-07a7-4404-8834-12a75e81f0fb':[140,210,'#9a3412'],
+'914cb89b-13e6-49eb-aa9d-3d3b6e9c2837':[530,90,'#111','#7c3aed'],'9864b641-0d5e-4aba-8f67-4902b1586be5':[650,90,'#f5f5f4'],
+'f9216d58-6031-45c1-9749-a83617ec015f':[600,210,'#6b4423'],'9a759555-fe1c-4996-9fad-e4b582e88f70':[80,380,'#3b2414'],
+'86fd9d4e-4d61-4a76-8d54-08d01037ec07':[200,380,'#e8c35a'],'bd1f46a0-bb5f-49ca-98bb-58c784da4368':[320,380,'#111'],
+'96db03c2-f067-4da8-8aea-d0283547ade9':[980,80,'#6b7280','#ca8a04'],'28d7bd09-1020-4a84-b2a0-f66e72dd0b49':[140,590,'#3b2414'],
+'e53e3301-7770-4ba9-a0e3-35d26a49950f':[430,590,'#d4d4d4','#1e3a8a'],'3ee6f5c1-d2f2-4599-b2e0-c8ea163868e2':[720,590,'#9a3412','#16a34a'],
+'d654bf91-778f-4a3a-ab93-f341e6068a90':[1010,590,'#111','#991b1b']};
+let bots=[],status=null,sel=null;
+function fmt(t){if(!t)return'unknown';const d=new Date(t);if(isNaN(d))return t;return d.toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' (UK)'}
+function apply(s){status=s;const old=Object.fromEntries(bots.map(b=>[b.id,b]));let mi=0,bi=0;
+ const topic={};(s.handoffs||[]).forEach(h=>{topic[h.from]=topic[h.to]=h.topic});
+ bots=s.bots.map((d,i)=>{const L=LOOK[d.id]||[60+i*70%1100,620,'#444'],col=C[d.project]||'#888',o=old[d.id];
+  const b=o||{x:L[0],y:L[1]+32,ph:Math.random()*6,wait:0};
+  Object.assign(b,{id:d.id,n:d.name,p:d.project,col,hx:L[0],hy:L[1]+32,hair:L[2],shirt:L[3]||col,d,topic:topic[d.id]});
+  let tgt;if(d.state==='in a meeting')tgt=MEET[mi++%MEET.length];else if(d.state==='idle'||d.state==='break')tgt=BREAK[bi++%BREAK.length];else tgt=[b.hx,b.hy];
+  b.home=[tgt[0]+(Math.random()*16-8),tgt[1]];b.wander=d.state==='idle';if(!o){b.x=b.home[0];b.y=b.home[1]}b.tx=b.home[0];b.ty=b.home[1];return b});
+ const ev=(s.events||[]).map(e=>'<b>'+fmt(e.at).replace(' (UK)','')+'</b>'+esc(e.text)).join('');
+ document.querySelector('#ticker div').innerHTML=ev||'<b>—</b>No recent events';
+ document.getElementById('gen').textContent='Status updated '+fmt(s.generated);if(sel)show(bots.find(b=>b.id===sel.id))}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function load(){if(location.protocol==='file:'){if(!status&&EMBED)apply(EMBED);return}try{const r=await fetch('status.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;apply(await r.json())}catch(e){if(!status&&EMBED)apply(EMBED)}}
+load();setInterval(load,60000);
+function rr(X,Y,W,H,r,f){x.fillStyle=f;x.beginPath();x.roundRect(X,Y,W,H,r);x.fill()}
+function floor(){x.fillStyle='#4b4f63';x.fillRect(0,0,1200,720);
+ for(const r of rooms){x.fillStyle=r.f;x.fillRect(r.x,r.y,r.w,r.h);x.strokeStyle='#0001';
+  for(let i=r.x;i<r.x+r.w;i+=20){x.beginPath();x.moveTo(i,r.y);x.lineTo(i,r.y+r.h);x.stroke()}
+  x.lineWidth=6;x.strokeStyle='#2e3142';x.strokeRect(r.x,r.y,r.w,r.h);x.lineWidth=1;
+  x.fillStyle=r.f;x.fillRect(r.x+r.w/2-22,r.y+r.h-4,44,8);x.font='bold 12px system-ui';
+  rr(r.x+8,r.y+8,x.measureText(r.n).width+16,20,6,r.col);x.fillStyle='#fff';x.fillText(r.n,r.x+16,r.y+22)}}
+function plant(X,Y){rr(X-7,Y,14,12,3,'#92400e');x.fillStyle='#16a34a';for(const[a,b]of[[0,-8],[-7,-3],[7,-3]]){x.beginPath();x.arc(X+a,Y+b,7,0,7);x.fill()}}
+function desk(b){rr(b.hx-30,b.hy-52,60,30,4,'#a16207');rr(b.hx-14,b.hy-50,28,16,2,'#1f2937');x.fillStyle=b.d.state==='working'?b.col:'#111827';x.fillRect(b.hx-12,b.hy-48,24,12);rr(b.hx-10,b.hy-14,20,10,4,'#374151')}
+function furniture(t){bots.forEach(desk);
+ rr(560,400,180,70,30,'#78350f');for(const[a,b]of MEET.slice(0,5)){rr(a-9,b-9+(b<440?-18:18),18,12,4,'#374151')}
+ rr(500,350,100,6,2,'#fff');
+ rr(850,290,150,34,10,'#0f766e');rr(850,280,150,14,8,'#14b8a6');
+ rr(1100,280,40,60,6,'#374151');rr(1108,292,24,14,2,'#111');x.fillStyle=(t/400|0)%2?'#f87171':'#4ade80';x.fillRect(1124,316,6,6);x.fillStyle='#fff';x.font='9px system-ui';x.fillText('COFFEE',1101,334);
+ x.strokeStyle='#fff8';for(let i=0;i<3;i++){const s=(t/30+i*12)%36;x.beginPath();x.arc(1120,276-s,3,0,7);x.stroke()}
+ rr(1030,420,110,70,8,'#166534');x.fillStyle='#fff';x.beginPath();x.arc(1085,455,4,0,7);x.fill();x.fillStyle='#fde047';for(let i=0;i<4;i++)x.fillRect(1045+i*22,428,10,14);x.fillStyle='#ddd';x.font='9px system-ui';x.fillText('GAMES TABLE',1053,486);
+ rr(870,420,70,40,6,'#a16207');rr(1080,60,80,40,6,'#7c2d12');rr(860,180,300,10,3,'#93c5fd');
+ rr(720,190,60,40,4,'#111');for(let i=0;i<6;i++){x.fillStyle=i%2?'#fff':'#ddd';x.fillRect(724+i*9,214,8,14)}
+ [[440,40],[780,40],[440,300],[30,510],[1160,230],[790,510]].forEach(p=>plant(...p));rr(1100,600,70,50,24,'#166534')}
+function moving(b){return Math.hypot(b.tx-b.x,b.ty-b.y)>2}
+function avatar(b,t){const w=moving(b),bob=Math.sin(t/300+b.ph)*(w?0:1.5),walk=w?Math.sin(t/80)*3:0;
+ const X=b.x,Y=b.y+bob;x.fillStyle='#0003';x.beginPath();x.ellipse(b.x,b.y+14,12,4,0,0,7);x.fill();
+ x.fillStyle='#1f2937';x.fillRect(X-6,Y+4,5,10+walk);x.fillRect(X+1,Y+4,5,10-walk);
+ rr(X-9,Y-12,18,18,5,b.shirt);rr(X-8,Y-28,16,16,6,'#f2c9a0');x.fillStyle=b.hair;x.fillRect(X-8,Y-30,16,6);
+ x.fillStyle='#222';const bl=(t/100+b.ph*40|0)%40==0;x.fillRect(X-4,Y-22,2,bl?1:3);x.fillRect(X+2,Y-22,2,bl?1:3);
+ if(b===sel){x.strokeStyle='#facc15';x.lineWidth=3;x.beginPath();x.ellipse(b.x,b.y+14,16,6,0,0,7);x.stroke();x.lineWidth=1}
+ const nm=b.n.length>22?b.n.slice(0,20)+'…':b.n;x.font='bold 10px system-ui';const tw=x.measureText(nm).width+10;rr(X-tw/2,Y+16,tw,14,4,'#000b');x.fillStyle='#fff';x.fillText(nm,X-tw/2+5,Y+26)}
+function bubble(b,t){const st=b.d.state;let s;
+ if(moving(b))s='On the way…';else if(st==='in a meeting')s=b.topic||'In a meeting';else if(st==='break')s='Coffee break ☕';else if(st==='idle')s=null;else s=b.d.real?b.d.last_activity_summary:null;
+ if(b===sel&&!s)s=b.d.last_activity_summary;if(!s)return;
+ const show=st==='in a meeting'||b===sel||((t/1000+b.ph*3)%14)<6;if(!show)return;
+ if(s.length>48)s=s.slice(0,46)+'…';x.font='11px system-ui';const w=Math.max(x.measureText(s).width,40)+14,X=Math.min(Math.max(b.x-w/2,4),1196-w),Y=b.y-62;
+ rr(X,Y,w,24,8,'#fff');x.fillStyle='#fff';x.beginPath();x.moveTo(b.x-5,Y+24);x.lineTo(b.x+5,Y+24);x.lineTo(b.x,Y+31);x.fill();
+ x.fillStyle='#222';x.fillText(s,X+7,Y+16)}
+function update(){for(const b of bots){const dx=b.tx-b.x,dy=b.ty-b.y,d=Math.hypot(dx,dy);
+ if(d>=2){b.x+=dx/d*1.2;b.y+=dy/d*1.2}else if(b.wander&&--b.wait<0){const p=BREAK[Math.random()*BREAK.length|0];b.tx=p[0]+(Math.random()*20-10);b.ty=p[1];b.wait=300+Math.random()*500}}}
+function light(){const h=+new Date().toLocaleString('en-GB',{timeZone:'Europe/London',hour:'numeric',hour12:false});const m=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit'});
+ document.getElementById('clock').textContent='London '+m+(h>=20||h<6?' 🌙':h<8||h>=18?' 🌅':' ☀️');
+ return h>=21||h<6?.42:h>=19||h<7?.22:h>=17||h<8?.1:0}
+let dark=light();setInterval(()=>dark=light(),60000);
+function loop(t){update();floor();furniture(t);[...bots].sort((a,b)=>a.y-b.y).forEach(b=>avatar(b,t));
+ if(dark){x.fillStyle='rgba(10,15,50,'+dark+')';x.fillRect(0,0,1200,720);x.globalCompositeOperation='lighter';
+  for(const b of bots)if(b.d.state==='working'){const g=x.createRadialGradient(b.hx,b.hy-40,2,b.hx,b.hy-40,45);g.addColorStop(0,'rgba(255,220,140,'+dark*.6+')');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(b.hx-50,b.hy-90,100,100)}
+  x.globalCompositeOperation='source-over'}
+ bots.forEach(b=>bubble(b,t));requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+function show(b){sel=b;if(!b){panel.classList.remove('open');return}const d=b.d;
+ pn.textContent=d.name;pp.textContent=d.project;pp.style.background=b.col;pt.textContent=d.last_activity_summary;
+ pl.textContent=fmt(d.last_active);ps.textContent=d.state+(d.state==='working'?' — at desk in '+d.room:d.state==='in a meeting'?' — Meeting Room'+(b.topic?': '+b.topic:''):' — R&R / Break Room');
+ pw.style.display=d.real?'none':'block';po.href='grokbot://app/v1/agent?id='+encodeURIComponent(d.id);panel.classList.add('open')}
+c.addEventListener('click',e=>{const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)*1200/r.width,my=(e.clientY-r.top)*720/r.height;
+ let best=null,bd=40;for(const b of bots){const d=Math.hypot(b.x-mx,b.y-10-my);if(d<bd){bd=d;best=b}}show(best)});
+</script></body></html>
